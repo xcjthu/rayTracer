@@ -25,7 +25,8 @@ void Engine::setTarget(int* aDest, int aW, int aH) {
 
 int Engine::nearIntersect(Primitive*& prim, Ray& aRay, double& aDist) {
 	//find the nearest intersection
-	int result;
+	int result = MISS;
+	// std::cout << mScene->getnumPrimitive() << std::endl;
 	for (int s = 0; s < mScene->getnumPrimitive(); ++s) {
 		Primitive* pr = mScene->getPrimitive(s);
 		//printf("%lld\n", pr);
@@ -59,6 +60,39 @@ double Engine::diffuse(Primitive* prim, Vector3& N, Vector3& L) {
 	return 0;
 }
 
+double Engine::calShade(Primitive* a_Light, Vector3 a_pi, Vector3& a_Dir) {
+	double shade;
+	Primitive* prim = 0;
+	if (a_Light->getType() == "SPHERE")
+	{
+		// handle point light source
+		shade = 1.0f;
+		a_Dir = ((Sphere*)a_Light)->getCentre() - a_pi;
+		double tdist = a_Dir.length();
+		a_Dir *= (1.0f / tdist);
+		nearIntersect(prim, Ray(a_pi + a_Dir * EPSILON, a_Dir), tdist);
+		if (prim != a_Light) shade = 0;
+	}
+	else if (a_Light->getType() == "PLANE")
+	{
+		shade = 0;
+		Box* b = (Box*)a_Light;
+		a_Dir = (b->GetPos() + 0.5f * b->GetSize()) - a_pi;
+		a_Dir.normalize();
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++)
+			{
+				Vector3 lp(b->GetPos().x + x, b->GetPos().y, b->GetPos().z + y);
+				Vector3 dir = lp - a_pi;
+				double ldist = dir.length();
+				dir *= 1.0f / ldist;
+				if (nearIntersect(prim, Ray(a_pi + a_Dir * EPSILON, a_Dir), ldist))
+					if (prim == a_Light) shade += 1.0f / 9;
+			}
+		}
+	}
+	return shade;
+}
 
 Primitive* Engine::raytrace(Ray& aRay, Color& aAcc, int aD, double aRIndex, double& aDist) {
 	if (aD > TRACEDEPTH) {
@@ -198,7 +232,7 @@ void Engine::initRender() {
 
 bool Engine::render() {
 	//render scene
-	Vector3 o(0, 0, -5);
+	Vector3 o(0, 0, -7);
 	
 	//这里还可以加上超采样
 	

@@ -78,6 +78,9 @@ int Plane::Intersect(Ray& ray, double& dist) {
 	return MISS;
 }
 
+
+
+
 Vector3 Plane::getNormal(Vector3& pos) {
 	return n;
 }
@@ -90,6 +93,66 @@ void Scene::initScene1() {
 }
 
 void Scene::initScene() {
+	mPrimitive = new Primitive*[100];
+
+	
+
+	mPrimitive[0] = new Plane(Vector3(0, 1, 0), 6);
+	mPrimitive[0]->setName("plane");
+	mPrimitive[0]->getMaterial()->SetReflection(0.0f);
+	mPrimitive[0]->getMaterial()->SetRefraction(0.0f);
+	mPrimitive[0]->getMaterial()->SetDiffuse(1.0f);
+	mPrimitive[0]->getMaterial()->SetColor(Color(0.4f, 0.3f, 0.3f));
+
+	mPrimitive[7] = new Plane(Vector3(0, -1, 0), 6);
+	mPrimitive[7]->setName("plane");
+	mPrimitive[7]->getMaterial()->SetReflection(0.0f);
+	mPrimitive[7]->getMaterial()->SetRefraction(0.0f);
+	mPrimitive[7]->getMaterial()->SetDiffuse(1.0f);
+	mPrimitive[7]->getMaterial()->SetColor(Color(0.4f, 0.3f, 0.3f));
+
+	mPrimitive[1] = new Sphere(Vector3(3, 2, 8), 3);
+	mPrimitive[1]->setName("big sphere");
+	mPrimitive[1]->getMaterial()->SetReflection(0.2f);
+	mPrimitive[1]->getMaterial()->SetRefraction(1.0f);
+	mPrimitive[1]->getMaterial()->SetRefrIndex(1.3f);
+	mPrimitive[1]->getMaterial()->SetSpecular(0.6f);
+	// mPrimitive[1]->getMaterial()->SetDiffuse(0.5f);
+	mPrimitive[1]->getMaterial()->SetColor(Color(0.7f, 0.7f, 1.0f));
+
+	mPrimitive[2] = new Plane(Vector3(0, 0, -1), 12);
+	mPrimitive[2]->setName("plane");
+	mPrimitive[2]->getMaterial()->SetReflection(0.0f);
+	mPrimitive[2]->getMaterial()->SetRefraction(0.0f);
+	mPrimitive[2]->getMaterial()->SetDiffuse(1.0f);
+	mPrimitive[2]->getMaterial()->SetColor(Color(0.3f, 0.4f, 0.3f));
+
+	mPrimitive[3] = new Plane(Vector3(-1, 0, 0), 6);
+	mPrimitive[3]->setName("plane");
+	mPrimitive[3]->getMaterial()->SetReflection(0.0f);
+	mPrimitive[3]->getMaterial()->SetRefraction(0.0f);
+	mPrimitive[3]->getMaterial()->SetDiffuse(1.0f);
+	mPrimitive[3]->getMaterial()->SetColor(Color(0.3f, 0.4f, 0.4f));
+
+	mPrimitive[6] = new Plane(Vector3(1, 0, 0), 6);
+	mPrimitive[6]->setName("plane");
+	mPrimitive[6]->getMaterial()->SetReflection(0.0f);
+	mPrimitive[6]->getMaterial()->SetRefraction(0.0f);
+	mPrimitive[6]->getMaterial()->SetDiffuse(1.0f);
+	mPrimitive[6]->getMaterial()->SetColor(Color(0.3f, 0.3f, 0.4f));
+
+	mPrimitive[4] = new Sphere(Vector3(-5, 2, 8), 0.1f);
+	mPrimitive[4]->Light(true);
+	mPrimitive[4]->getMaterial()->SetColor(Color(0.4f, 0.4f, 0.4f));
+
+
+	mPrimitive[5] = new Sphere(Vector3(-2, -5, 5), 0.1f);
+	mPrimitive[5]->Light(true);
+	mPrimitive[5]->getMaterial()->SetColor(Color(0.4f, 0.4f, 0.4f));
+
+
+	numPrimitive = 7;
+	/*
 	mPrimitive = new Primitive*[500];
 	// ground plane
 	mPrimitive[0] = new Plane(Vector3(0, 1, 0), 4.4f);
@@ -170,7 +233,7 @@ void Scene::initScene() {
 	// set number of primitives
 	numPrimitive = prim ;
 
-
+	*/
 
 
 	/*

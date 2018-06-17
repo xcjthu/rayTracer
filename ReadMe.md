@@ -1,1 +1,2 @@
-homework
+# rayTracer
+big project for graphic

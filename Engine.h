@@ -17,6 +17,7 @@ public:
 	void initRender();
 	int nearIntersect(Primitive*& pointer, Ray& aRay, double& aDist);
 	double diffuse(Primitive* prim, Vector3& N, Vector3& L);
+	double calShade(Primitive* a_Light, Vector3 a_IP, Vector3& a_Dir);
 	//double reflect();
 	bool render();
 
